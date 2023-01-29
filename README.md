@@ -1,7 +1,11 @@
 # Assignment
 
-used mongodb as database
-used nodejs as backend server
-used kubernetes for deployment
+I have used-
 
-Added all necessary endpoints for doing crud on employee, employeeslot and venues.
+mongodb as database
+
+nodejs as backend server
+
+kubernetes for deployment
+
+Added necessary endpoints for creating and modifying  data on employee, employeeslot and venues collections.
