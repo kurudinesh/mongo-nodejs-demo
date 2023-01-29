@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      db: mongo
+  template:
+    metadata:
+      labels:
+        db: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.2
+          args:
+            - --dbpath
+            - /data/db
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 27017          
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              # value: 'story'
+              valueFrom: 
+                secretKeyRef:
+                  name: mongo-creds
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: mongo-creds
+                  key: password
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-volume
+      volumes:
+        - name: mongo-volume
+          # emptyDir: {}
+          persistentVolumeClaim:
+            claimName: mongo-pvc
